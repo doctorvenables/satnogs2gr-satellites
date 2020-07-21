@@ -63,7 +63,7 @@ print("Starting gr-satellites processing for ",sat_name)
 wav_arg="--wavfile="+wav_name
 exec_string= '/usr/local/bin/gr_satellites'
 now_kss=datetime.datetime.now()
-kiss_arg=out_path+'/data/kiss_'+now_kss.strftime("%Y-%m-%d %H:%M:%S")+'.kss'
+kiss_arg=out_path+'/data/kiss_'+now_kss.strftime("%Y-%m-%d-%H-%M-%S")+'.kss'
 exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03"]
 print('Kiss arg=',kiss_arg)
 #satnogs bpsk observations require an offset of 12e3
