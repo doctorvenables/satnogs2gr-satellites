@@ -5,6 +5,17 @@ import os, shutil
 import soundfile as sf
 import subprocess
 import datetime
+
+def concat_params(*list):
+  exec_list=[]
+  null_list_element=[]
+  for x in list:
+    print(x)
+
+    if (x != null_list_element):
+      exec_list=exec_list+[x]
+      print(exec_list)
+  return exec_list
 #Running gr-satellites as a sub-process in user satnogs environment
 #Appears to need PYTHONPATH explicitly stated 
 os.environ['PYTHONPATH'] = '/usr/local/lib/python3/dist-packages/'
@@ -15,6 +26,8 @@ print("Name of script: ",script_name)
 #satnogs bpsk observations require an offset of 12e3
 if ('bpsk' in script_name):
      f_offset='--f_offset=12e3'
+else:
+     f_offset=''
 #print("f_offset: ",f_offset)
 
 print("Timestamp: ",sys.argv[3])
@@ -64,12 +77,14 @@ wav_arg="--wavfile="+wav_name
 exec_string= '/usr/local/bin/gr_satellites'
 now_kss=datetime.datetime.now()
 kiss_arg="--kiss_out="+out_path+'/data/'+str(norad_id)+'kiss_'+now_kss.strftime("%Y-%m-%d-%H-%M-%S")+'.kss'
-exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03",kiss_arg]
+samp_rate="--samp_rate=48e3"
+clk_limit="--clk_limit=0.03"
+#exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03",kiss_arg]
 print('Kiss arg=',kiss_arg)
 #satnogs bpsk observations require an offset of 12e3
-if ('bpsk' in script_name):
-     exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03","--f_offset=12e3",kiss_arg]
-
+#if ('bpsk' in script_name):
+#     exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03","--f_offset=12e3",kiss_arg]
+exec_arg0=concat_params(exec_string,str(norad_id),wav_arg,samp_rate,clk_limit,kiss_arg,f_offset)
 print(exec_arg0)
 
 #Run gr_satellites
