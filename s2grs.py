@@ -24,9 +24,11 @@ def isOutputExtraFile(nid):
   hasExtra=[41909,42725,42794,44830,44832]
   if (nid in hasExtra):
     print("Satellite has extra file/image capabilities")
+    fop='/var/lib/satnogs/data/'
   else:
     print("Satellite has no extra capabilities")
-  return
+    fop=''
+  return fop
 #
 #
 #Running gr-satellites as a sub-process in user satnogs environment
@@ -53,7 +55,7 @@ tle_second_line=tle_data["tle2"]
 norad_id=tle_second_line.split(" ")[1]
 print("Norad ID=",norad_id)
 #Is this sat one with a file/jpeg output?
-isOutputExtraFile(norad_id)
+fop=isOutputExtraFile(norad_id)
 
 in_path = '/tmp/.satnogs/'
 out_path = '/var/lib/satnogs/'
@@ -99,7 +101,7 @@ print('Kiss arg=',kiss_arg)
 #satnogs bpsk observations require an offset of 12e3
 #if ('bpsk' in script_name):
 #     exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03","--f_offset=12e3",kiss_arg]
-exec_arg0=concat_params(exec_string,str(norad_id),wav_arg,samp_rate,clk_limit,kiss_arg,f_offset)
+exec_arg0=concat_params(exec_string,str(norad_id),wav_arg,samp_rate,clk_limit,kiss_arg,f_offset,fop)
 print(exec_arg0)
 
 #Run gr_satellites
