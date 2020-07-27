@@ -6,9 +6,10 @@ import soundfile as sf
 import subprocess
 import datetime
 
+#Adds together parameters to be supplied to gr-satellites
 def concat_params(*list):
   exec_list=[]
-  null_list_element=[]
+  null_list_element=''
   for x in list:
     print(x)
 
@@ -16,6 +17,18 @@ def concat_params(*list):
       exec_list=exec_list+[x]
       print(exec_list)
   return exec_list
+
+#Checks to see whether satellite produces extra output e.g. file or image
+#You can use the supported_satellites script to produce a searchable file to update this
+def isOutputExtraFile(nid):
+  hasExtra=[41909,42725,42794,44830,44832]
+  if (nid in hasExtra):
+    print("Satellite has extra file/image capabilities")
+  else:
+    print("Satellite has no extra capabilities")
+  return
+#
+#
 #Running gr-satellites as a sub-process in user satnogs environment
 #Appears to need PYTHONPATH explicitly stated 
 os.environ['PYTHONPATH'] = '/usr/local/lib/python3/dist-packages/'
@@ -23,7 +36,7 @@ os.environ['PYTHONPATH'] = '/usr/local/lib/python3/dist-packages/'
 print("Entering Python script to invoke gr-satellites")
 script_name = sys.argv[4]
 print("Name of script: ",script_name)
-#satnogs bpsk observations require an offset of 12e3
+#satnogs bpsk observations require an offset of 12e3 to be passed to gr-satnogs but NOT passed if not BPSK
 if ('bpsk' in script_name):
      f_offset='--f_offset=12e3'
 else:
@@ -36,9 +49,11 @@ tle_data=json.loads(sys.argv[2])
 sat_name_line=tle_data["tle0"]
 sat_name=sat_name_line.split(" ")[0]
 tle_second_line=tle_data["tle2"]
-
+#Extract NORAD ID
 norad_id=tle_second_line.split(" ")[1]
 print("Norad ID=",norad_id)
+#Is this sat one with a file/jpeg output?
+isOutputExtraFile(norad_id)
 
 in_path = '/tmp/.satnogs/'
 out_path = '/var/lib/satnogs/'
