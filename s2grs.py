@@ -24,7 +24,7 @@ def isOutputExtraFile(nid):
   hasExtra=[41909,42725,42794,44830,44832]
   if (nid in hasExtra):
     print("Satellite has extra file/image capabilities")
-    fop='/var/lib/satnogs/data/'
+    fop='----file_output_path=/var/lib/satnogs/data/'
   else:
     print("Satellite has no extra capabilities")
     fop=''
