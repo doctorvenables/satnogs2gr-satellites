@@ -125,3 +125,6 @@ date_stamp="Current date and time : "+ now.strftime("%Y-%m-%d %H:%M:%S")
 file1.write(date_stamp)
 file1.write(result.stdout)
 file1.close()
+
+#delete the .wav file
+os.remove(wav_name)
