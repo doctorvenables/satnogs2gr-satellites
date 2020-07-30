@@ -31,6 +31,17 @@ def isOutputExtraFile(nid):
   return fop
 #
 #
+
+#Tests to see if the kiss file for norad_id exists or not
+#New file with norad_number created or old file appended
+def kissExists(nor_id,out_path):
+  kissFileName=out_path+'data/'+str(nor_id)+'.kss'
+  if (os.path.exists(kissFileName)):
+    kissOutput='--kiss_append'
+  else:
+    kissOutput='--kiss_out='+kissFileName
+  return kissOutput
+
 #Running gr-satellites as a sub-process in user satnogs environment
 #Appears to need PYTHONPATH explicitly stated 
 os.environ['PYTHONPATH'] = '/usr/local/lib/python3/dist-packages/'
@@ -93,7 +104,8 @@ print("Starting gr-satellites processing for ",sat_name)
 wav_arg="--wavfile="+wav_name
 exec_string= '/usr/local/bin/gr_satellites'
 now_kss=datetime.datetime.now()
-kiss_arg="--kiss_out="+out_path+'/data/'+str(norad_id)+'kiss_'+now_kss.strftime("%Y-%m-%d-%H-%M-%S")+'.kss'
+#kiss_arg="--kiss_out="+out_path+'/data/'+str(norad_id)+'kiss_'+now_kss.strftime("%Y-%m-%d-%H-%M-%S")+'.kss'
+kiss_arg=kissExists(norad_id,out_path)
 samp_rate="--samp_rate=48e3"
 clk_limit="--clk_limit=0.03"
 #exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03",kiss_arg]
