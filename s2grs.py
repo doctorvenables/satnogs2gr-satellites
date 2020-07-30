@@ -37,9 +37,9 @@ def isOutputExtraFile(nid):
 def kissExists(nor_id,out_path):
   kissFileName=out_path+'data/'+str(nor_id)+'.kss'
   if (os.path.exists(kissFileName)):
-    kissOutput='--kiss_append'
+    kissOutput=['--kiss_append','--kiss_out='+kissFileName]
   else:
-    kissOutput='--kiss_out='+kissFileName
+    kissOutput=['--kiss_out='+kissFileName,'']
   return kissOutput
 
 #Running gr-satellites as a sub-process in user satnogs environment
@@ -106,14 +106,16 @@ exec_string= '/usr/local/bin/gr_satellites'
 now_kss=datetime.datetime.now()
 #kiss_arg="--kiss_out="+out_path+'/data/'+str(norad_id)+'kiss_'+now_kss.strftime("%Y-%m-%d-%H-%M-%S")+'.kss'
 kiss_arg=kissExists(norad_id,out_path)
+kiss_arg0=kiss_arg[0]
+kiss_arg1=kiss_arg[1]
 samp_rate="--samp_rate=48e3"
 clk_limit="--clk_limit=0.03"
 #exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03",kiss_arg]
-print('Kiss arg=',kiss_arg)
+print('Kiss arg=',kiss_arg0,' ',kiss_arg1)
 #satnogs bpsk observations require an offset of 12e3
 #if ('bpsk' in script_name):
 #     exec_arg0=[exec_string,str(norad_id),wav_arg,"--samp_rate=48e3","--clk_limit=0.03","--f_offset=12e3",kiss_arg]
-exec_arg0=concat_params(exec_string,str(norad_id),wav_arg,samp_rate,clk_limit,kiss_arg,f_offset,fop)
+exec_arg0=concat_params(exec_string,str(norad_id),wav_arg,samp_rate,clk_limit,kiss_arg0,kiss_arg1,f_offset,fop)
 print(exec_arg0)
 
 #Run gr_satellites
