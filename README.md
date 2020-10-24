@@ -6,6 +6,7 @@ Install SoundFile with
 <quote>sudo pip3 install SoundFile</quote>
 
 sudo chown satnogs:satnogs data
+sudo apt-get install sox
 
 Code to take the ogg file from gr-satnogs and pass it through gr-satellites
 
