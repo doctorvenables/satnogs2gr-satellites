@@ -5,6 +5,8 @@ Install SoundFile with
 
 <quote>sudo pip3 install SoundFile</quote>
 
+sudo chown satnogs:satnogs data
+
 Code to take the ogg file from gr-satnogs and pass it through gr-satellites
 
 Create the folder: sudo mkdir /var/lib/satnogs/data
