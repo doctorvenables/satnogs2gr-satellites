@@ -21,7 +21,7 @@ def concat_params(*list):
 #Checks to see whether satellite produces extra output e.g. file or image
 #You can use the supported_satellites script to produce a searchable file to update this
 def isOutputExtraFile(nid):
-  hasExtra=[41909,42725,42794,44830,44832]
+  hasExtra=[41909,42725,42794,44830,44832,43937]
   if (nid in hasExtra):
     print("Satellite has extra file/image capabilities")
     fop='--file_output_path=/var/lib/satnogs/data/'
